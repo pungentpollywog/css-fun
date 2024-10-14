@@ -1,0 +1,94 @@
+
+:root {
+  --mouseX: 0;
+  --mouseY: 0;
+
+  --accent1: rgba(255, 0, 0, 0.8);
+  --accent2: rgba(0, 255, 0, 0.8);
+  --accent3: rgba(0, 0, 255, 0.8);
+  --accent4: rgba(255, 251, 0, 0.8);
+  --light: rgba(255, 0, 0, 0);
+  
+  --lava-stop: 70.71%;
+  --lava-angle: 360;
+}
+
+@function safe-lava-angle() {
+  $angle: var(--lava-angle);
+  @return max($angle, 80);
+}
+
+body {
+  background: radial-gradient(
+    at #{var(--mouseX)} #{var(--mouseY)},
+    var(--accent1) 10px,
+    var(--accent4) 30%,
+    var(--accent3) 50%
+  );
+}
+
+body[theme='lava'] {
+  background: linear-gradient(
+      calc(safe-lava-angle() * 0.25deg),
+      var(--accent1),
+      var(--light) 
+    ),
+    linear-gradient(
+      calc(safe-lava-angle() * -0.5deg),
+      var(--accent2),
+      var(--light) clamp(25%, var(--lava-stop), 50%) 
+    ),
+    linear-gradient(
+      calc(safe-lava-angle() * 0.75deg),
+      var(--accent3),
+      var(--light) clamp(55%, var(--lava-stop), 75%)
+    ),
+    linear-gradient(
+      calc(safe-lava-angle() * -1deg),
+      var(--accent4),
+      var(--light) 
+    );
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
