@@ -1,4 +1,3 @@
-
 :root {
   --mouseX: 0;
   --mouseY: 0;
@@ -7,15 +6,25 @@
   --accent2: rgba(0, 255, 0, 0.8);
   --accent3: rgba(0, 0, 255, 0.8);
   --accent4: rgba(255, 251, 0, 0.8);
+  --accent5: rgba(255, 111, 0, 0.8);
   --light: rgba(255, 0, 0, 0);
-  
-  --lava-stop: 70.71%;
+
+  --lava-stop: 70;
   --lava-angle: 360;
 }
 
-@function safe-lava-angle() {
+@function safe-angle($multiplier: 1, $min: 0) {
   $angle: var(--lava-angle);
-  @return max($angle, 80);
+  @return calc(max($angle, $min) * $multiplier * 1deg);
+}
+
+@function safe-percent($multiplier: 1, $min: 0) {
+  $angle: var(--lava-angle);
+  @return calc(max($angle, $min) * $multiplier * 1%);
+}
+
+@function stop-percent($val: var(--lava-stop)) {
+  @return calc($val * 1%);
 }
 
 body {
@@ -27,27 +36,54 @@ body {
   );
 }
 
-body[theme='lava'] {
+body[theme='linear'] {
   background: linear-gradient(
-      calc(safe-lava-angle() * 0.25deg),
+      safe-angle(0.25, 80) in oklab,
       var(--accent1),
-      var(--light) 
+      var(--light)
     ),
     linear-gradient(
-      calc(safe-lava-angle() * -0.5deg),
+      safe-angle(-0.5, 80) in oklab,
       var(--accent2),
-      var(--light) clamp(25%, var(--lava-stop), 50%) 
+      var(--light) clamp(25%, stop-percent(), 50%)
     ),
     linear-gradient(
-      calc(safe-lava-angle() * 0.75deg),
+      safe-angle(0.75, 80) in oklab,
       var(--accent3),
-      var(--light) clamp(55%, var(--lava-stop), 75%)
+      var(--light) clamp(55%, stop-percent(), 75%)
     ),
-    linear-gradient(
-      calc(safe-lava-angle() * -1deg),
-      var(--accent4),
-      var(--light) 
-    );
+    linear-gradient(safe-angle(-1, 80) in oklab, var(--accent4), var(--light));
+}
+
+body[theme='radial'] {
+  background: radial-gradient(
+      circle at safe-percent(0.25),
+      var(--accent1),
+      var(--light)
+    ),
+    radial-gradient(
+      circle at safe-percent(-0.5),
+      var(--accent2),
+      var(--light) clamp(25%, stop-percent(), 50%)
+    ),
+    radial-gradient(
+      circle at safe-percent(0.75),
+      var(--accent3),
+      var(--light) clamp(55%, stop-percent(), 75%)
+    ),
+    radial-gradient(circle at safe-percent(-1), var(--accent4), var(--light));
+}
+
+body[theme='conic'] {
+  background: conic-gradient(
+    from safe-angle(1.5) at var(--mouseX) var(--mouseY),
+    var(--accent1),
+    var(--accent3),
+    var(--accent2),
+    var(--accent4),
+    var(--accent5),
+    var(--accent1)
+  );
 }
 
 #root {
