@@ -53,6 +53,7 @@ body[theme='linear'] {
       var(--light) clamp(55%, stop-percent(), 75%)
     ),
     linear-gradient(safe-angle(-1, 80) in oklab, var(--accent4), var(--light));
+    background-blend-mode: color-dodge;
 }
 
 body[theme='radial'] {
@@ -72,6 +73,7 @@ body[theme='radial'] {
       var(--light) clamp(55%, stop-percent(), 75%)
     ),
     radial-gradient(circle at safe-percent(-1), var(--accent4), var(--light));
+    background-blend-mode: color-dodge;
 }
 
 body[theme='conic'] {
